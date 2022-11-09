@@ -119,3 +119,4 @@ ping_access_ip: true
 metrics_server_container_port: 19443
 
 #kube_apiserver_bind_address: "{{ access_ip }}"
+kube_proxy_metrics_bind_address: 0.0.0.0:10249

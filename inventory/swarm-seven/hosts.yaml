@@ -3,17 +3,17 @@ all:
     hhel7k8n1:
       ansible_host: 65.109.59.108
       ip: 10.10.10.1
-      ip6: 2a01:4f9:5a:4f68::2
+      ip6: fd40:89ce:20d:e768::1
       access_ip: 10.10.10.1
     hhel7k8n2:
       ansible_host: 65.109.71.10
       ip: 10.10.10.2
-      ip6: 2a01:4f9:3051:4d24::2
+      ip6: fd40:89ce:20d:e768::2
       access_ip: 10.10.10.2
     hhel7k8n3:
       ansible_host: 65.108.202.250
       ip: 10.10.10.3
-      ip6: 2a01:4f9:1a:9ed8::2
+      ip6: fd40:89ce:20d:e768::3
       access_ip: 10.10.10.3
   children:
     kube_control_plane:
@@ -35,8 +35,5 @@ all:
         kube_control_plane:
         kube_node:
     calico_rr:
-      hosts:
-        hhel7k8n1:
-        hhel7k8n2:
-        hhel7k8n3:
+      hosts: {}
 
