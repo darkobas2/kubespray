@@ -118,4 +118,5 @@ deploy_container_engine: true
 ping_access_ip: true
 
 
-metrics_server_container_port: 443
+metrics_server_container_port: 19443
+kube_proxy_metrics_bind_address: 0.0.0.0:10249

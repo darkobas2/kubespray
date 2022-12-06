@@ -3,22 +3,27 @@ all:
     hhelk8n1:
       ansible_host: 65.21.192.23
       ip: 10.10.10.1
+      ip6: fd40:89ce:20d:e768::1
       access_ip: 10.10.10.1
     hhelk8n2:
       ansible_host: 65.21.72.155
       ip: 10.10.10.2
+      ip6: fd40:89ce:20d:e768::2
       access_ip: 10.10.10.2
     hhelk8n3:
       ansible_host: 65.21.72.215
       ip: 10.10.10.3
+      ip6: fd40:89ce:20d:e768::3
       access_ip: 10.10.10.3
     hhelk8n4:
       ansible_host: 65.21.233.140
       ip: 10.10.10.4
+      ip6: fd40:89ce:20d:e768::4
       access_ip: 10.10.10.4
     hhelk8n5:
       ansible_host: 65.21.233.138
       ip: 10.10.10.5
+      ip6: fd40:89ce:20d:e768::5
       access_ip: 10.10.10.5
   children:
     kube_control_plane:

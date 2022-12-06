@@ -34,7 +34,7 @@ use_localhost_as_kubeapi_loadbalancer: true
 
 ## Local loadbalancer should use this port
 ## And must be set port 6443
-loadbalancer_apiserver_port: 6443
+# loadbalancer_apiserver_port: 6443
 
 ## If loadbalancer_apiserver_healthcheck_port variable defined, enables proxy liveness check for nginx.
 loadbalancer_apiserver_healthcheck_port: 8081
@@ -116,3 +116,9 @@ deploy_container_engine: true
 
 ## Check if access_ip responds to ping. Set false if your firewall blocks ICMP.
 ping_access_ip: true
+
+metrics_server_container_port: 19443
+
+#kube_apiserver_bind_address: "{{ access_ip }}"
+kube_proxy_metrics_bind_address: 0.0.0.0:10249
+
