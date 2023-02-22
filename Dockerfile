@@ -7,7 +7,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt update -y \
     && apt install -y \
-    curl python3 python3-pip sshpass \
+    curl python3 python3-pip sshpass vim \
     && rm -rf /var/lib/apt/lists/*
 
 # Some tools like yamllint need this
@@ -19,6 +19,7 @@ ENV LANG=C.UTF-8
 WORKDIR /kubespray
 COPY *yml /kubespray/
 COPY roles /kubespray/roles
+COPY contrib /kubespray/contrib
 COPY inventory /kubespray/inventory
 COPY library /kubespray/library
 COPY extra_playbooks /kubespray/extra_playbooks
