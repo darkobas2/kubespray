@@ -1,0 +1,50 @@
+all:
+  hosts:
+    hfal5k8n1:
+      ansible_host: 142.132.208.173
+      ip: 10.10.10.1
+      ip6: fd40:89ce:20d:e768::1
+      access_ip: 10.10.10.1
+    hfal5k8n2:
+      ansible_host: 142.132.208.179
+      ip: 10.10.10.2
+      ip6: fd40:89ce:20d:e768::2
+      access_ip: 10.10.10.2
+    hfal5k8n3:
+      ansible_host: 142.132.208.174
+      ip: 10.10.10.3
+      ip6: fd40:89ce:20d:e768::3
+      access_ip: 10.10.10.3
+    hfal5k8n4:
+      ansible_host: 142.132.208.178
+      ip: 10.10.10.4
+      ip6: fd40:89ce:20d:e768::4
+      access_ip: 10.10.10.4
+    hfal5k8n5:
+      ansible_host: 142.132.208.177
+      ip: 10.10.10.5
+      ip6: fd40:89ce:20d:e768::5
+      access_ip: 10.10.10.5
+  children:
+    kube_control_plane:
+      hosts:
+        hfal5k8n1:
+        hfal5k8n2:
+    kube_node:
+      hosts:
+        hfal5k8n1:
+        hfal5k8n2:
+        hfal5k8n3:
+        hfal5k8n4:
+        hfal5k8n5:
+    etcd:
+      hosts:
+        hfal5k8n1:
+        hfal5k8n2:
+        hfal5k8n3:
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
+    calico_rr:
+      hosts: {}

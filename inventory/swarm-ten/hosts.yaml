@@ -1,0 +1,23 @@
+all:
+  hosts:
+    hhel10k8n1:
+      ansible_host: 65.109.112.240
+      ip: 10.10.10.1
+      ip6: fd40:89ce:20d:e768::1
+      access_ip: 10.10.10.1
+  children:
+    kube_control_plane:
+      hosts:
+        hhel10k8n1:
+    kube_node:
+      hosts:
+        hhel10k8n1:
+    etcd:
+      hosts:
+        hhel10k8n1:
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
+    calico_rr:
+      hosts: {}
