@@ -150,10 +150,10 @@ Note: Upstart/SysV init based OS types are not supported.
 ## Supported Components
 
 - Core
-  - [kubernetes](https://github.com/kubernetes/kubernetes) v1.26.1
+  - [kubernetes](https://github.com/kubernetes/kubernetes) v1.26.2
   - [etcd](https://github.com/etcd-io/etcd) v3.5.6
   - [docker](https://www.docker.com/) v20.10 (see note)
-  - [containerd](https://containerd.io/) v1.6.16
+  - [containerd](https://containerd.io/) v1.6.19
   - [cri-o](http://cri-o.io/) v1.24 (experimental: see [CRI-O Note](docs/cri-o.md). Only on fedora, ubuntu and centos based OS)
 - Network Plugin
   - [cni-plugins](https://github.com/containernetworking/plugins) v1.2.0
@@ -163,15 +163,15 @@ Note: Upstart/SysV init based OS types are not supported.
   - [flannel](https://github.com/flannel-io/flannel) v0.20.2
   - [kube-ovn](https://github.com/alauda/kube-ovn) v1.10.7
   - [kube-router](https://github.com/cloudnativelabs/kube-router) v1.5.1
-  - [multus](https://github.com/intel/multus-cni) v3.8
+  - [multus](https://github.com/k8snetworkplumbingwg/multus-cni) v3.8
   - [weave](https://github.com/weaveworks/weave) v2.8.1
-  - [kube-vip](https://github.com/kube-vip/kube-vip) v0.5.8
+  - [kube-vip](https://github.com/kube-vip/kube-vip) v0.5.11
 - Application
   - [cert-manager](https://github.com/jetstack/cert-manager) v1.11.0
   - [coredns](https://github.com/coredns/coredns) v1.9.3
-  - [ingress-nginx](https://github.com/kubernetes/ingress-nginx) v1.5.1
+  - [ingress-nginx](https://github.com/kubernetes/ingress-nginx) v1.6.4
   - [krew](https://github.com/kubernetes-sigs/krew) v0.4.3
-  - [argocd](https://argoproj.github.io/) v2.5.10
+  - [argocd](https://argoproj.github.io/) v2.6.3
   - [helm](https://helm.sh/) v3.10.3
   - [metallb](https://metallb.universe.tf/)  v0.12.1
   - [registry](https://github.com/distribution/distribution) v2.8.1
