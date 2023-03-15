@@ -10,6 +10,11 @@ all:
       ip: 10.10.10.2
       ip6: fd40:89ce:20d:e768::2
       access_ip: 10.10.10.2
+    hhel10k8n3:
+      ansible_host: 65.109.109.85
+      ip: 10.10.10.3
+      ip6: fd40:89ce:20d:e768::2
+      access_ip: 10.10.10.3
   children:
     kube_control_plane:
       hosts:
@@ -19,10 +24,12 @@ all:
       hosts:
         hhel10k8n1:
         hhel10k8n2:
+        hhel10k8n3:
     etcd:
       hosts:
         hhel10k8n1:
         hhel10k8n2:
+        hhel10k8n3:
     k8s_cluster:
       children:
         kube_control_plane:
