@@ -46,3 +46,8 @@ dependencies:
     when: kube_network_plugin == 'custom_cni'
     tags:
       - custom_cni
+
+  - role: network_plugin/multus
+    when: kube_network_plugin_multus
+    tags:
+      - multus
