@@ -11,14 +11,15 @@ kube_api_anonymous_auth: true
 # Default value, but will be set to true automatically if detected
 is_fedora_coreos: false
 
-# optional disable the swap
-disable_swap: true
+# Swap settings
+kubelet_fail_swap_on: true
+kubelet_swap_behavior: LimitedSwap
 
 ## Change this to use another Kubernetes version, e.g. a current beta release
-kube_version: v1.26.2
+kube_version: v1.26.6
 
 ## The minimum version working
-kube_version_min_required: v1.24.0
+kube_version_min_required: v1.25.0
 
 ## Kube Proxy mode One of ['iptables','ipvs']
 kube_proxy_mode: ipvs
@@ -32,13 +33,13 @@ kubeadm_init_timeout: 300s
 kubeadm_init_phases_skip_default: [ "addon/coredns" ]
 kubeadm_init_phases_skip: >-
   {%- if kube_network_plugin == 'kube-router' and (kube_router_run_service_proxy is defined and kube_router_run_service_proxy) -%}
-  {{ kubeadm_init_phases_skip_default }} + [ "addon/kube-proxy" ]
+  {{ kubeadm_init_phases_skip_default + [ "addon/kube-proxy" ] }}
   {%- elif kube_network_plugin == 'cilium' and (cilium_kube_proxy_replacement is defined and cilium_kube_proxy_replacement == 'strict') -%}
-  {{ kubeadm_init_phases_skip_default }} + [ "addon/kube-proxy" ]
+  {{ kubeadm_init_phases_skip_default + [ "addon/kube-proxy" ] }}
   {%- elif kube_network_plugin == 'calico' and (calico_bpf_enabled is defined and calico_bpf_enabled) -%}
-  {{ kubeadm_init_phases_skip_default }} + [ "addon/kube-proxy" ]
+  {{ kubeadm_init_phases_skip_default + [ "addon/kube-proxy" ] }}
   {%- elif kube_proxy_remove is defined and kube_proxy_remove -%}
-  {{ kubeadm_init_phases_skip_default }} + [ "addon/kube-proxy" ]
+  {{ kubeadm_init_phases_skip_default + [ "addon/kube-proxy" ] }}
   {%- else -%}
   {{ kubeadm_init_phases_skip_default }}
   {%- endif -%}
@@ -156,7 +157,7 @@ kube_cert_compat_dir: "/etc/kubernetes/pki"
 # This is where all of the bearer tokens will be stored
 kube_token_dir: "{{ kube_config_dir }}/tokens"
 
-# This is the user that owns tha cluster installation.
+# This is the user that owns the cluster installation.
 kube_owner: kube
 
 # This is the group that the cert creation scripts chgrp the
@@ -297,6 +298,8 @@ cri_socket: >-
   {%- elif container_manager == 'docker' -%}
   unix:///var/run/cri-dockerd.sock
   {%- endif -%}
+
+crio_insecure_registries: []
 
 ## Uncomment this if you want to force overlay/overlay2 as docker storage driver
 ## Please note that overlay2 is only supported on newer kernels
@@ -443,15 +446,8 @@ openstack_lbaas_monitor_max_retries: "3"
 openstack_cacert: "{{ lookup('env','OS_CACERT') }}"
 
 # Default values for the external OpenStack Cloud Controller
-external_openstack_enable_ingress_hostname: false
-external_openstack_ingress_hostname_suffix: "nip.io"
-external_openstack_max_shared_lb: 2
-external_openstack_lbaas_create_monitor: false
-external_openstack_lbaas_monitor_delay: "1m"
-external_openstack_lbaas_monitor_timeout: "30s"
-external_openstack_lbaas_monitor_max_retries: "3"
+external_openstack_lbaas_enabled: true
 external_openstack_network_ipv6_disabled: false
-external_openstack_lbaas_use_octavia: false
 external_openstack_network_internal_networks: []
 external_openstack_network_public_networks: []
 
@@ -551,8 +547,8 @@ apiserver_loadbalancer_domain_name: "lb-apiserver.kubernetes.local"
 kube_apiserver_global_endpoint: |-
   {% if loadbalancer_apiserver is defined -%}
       https://{{ apiserver_loadbalancer_domain_name }}:{{ loadbalancer_apiserver.port|default(kube_apiserver_port) }}
-  {%- elif use_localhost_as_kubeapi_loadbalancer|default(False)|bool -%}
-      https://127.0.0.1:{{ kube_apiserver_port }}
+  {%- elif loadbalancer_apiserver_localhost and (loadbalancer_apiserver_port is not defined or loadbalancer_apiserver_port == kube_apiserver_port) -%}
+      https://localhost:{{ kube_apiserver_port }}
   {%- else -%}
       https://{{ first_kube_control_plane_address }}:{{ kube_apiserver_port }}
   {%- endif %}
@@ -656,13 +652,17 @@ host_os: >-
 # Setting it to 0 allows unlimited requests per second.
 kubelet_event_record_qps: 5
 
-proxy_env:
+proxy_env_defaults:
   http_proxy: "{{ http_proxy | default ('') }}"
   HTTP_PROXY: "{{ http_proxy | default ('') }}"
   https_proxy: "{{ https_proxy | default ('') }}"
   HTTPS_PROXY: "{{ https_proxy | default ('') }}"
   no_proxy: "{{ no_proxy | default ('') }}"
   NO_PROXY: "{{ no_proxy | default ('') }}"
+
+# If we use SSL_CERT_FILE: {{ omit }} it cause in value __omit_place_holder__ and break environments
+# Combine dict is avoiding the problem with omit placeholder. Maybe it can be better solution?
+proxy_env: "{{ proxy_env_defaults | combine({ 'SSL_CERT_FILE': https_proxy_cert_file }) if https_proxy_cert_file is defined else proxy_env_defaults }}"
 
 proxy_disable_env:
   ALL_PROXY: ''
