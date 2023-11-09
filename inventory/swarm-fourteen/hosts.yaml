@@ -1,0 +1,50 @@
+all:
+  hosts:
+    cusc1k8n1:
+      ansible_host: 144.126.157.192
+      ip: 144.126.157.192
+        #ip6: 2605:a140:2:992::1
+      access_ip: 144.126.157.192
+    cusc1k8n2:
+      ansible_host: 207.244.248.216
+      ip: 207.244.248.216
+        #ip6: 2605:a140:2:2516::1
+      access_ip: 207.244.248.216
+    cusc1k8n3:
+      ansible_host: 207.244.245.71
+      ip: 207.244.245.71
+        #ip6: 2605:a140:1:5271::1
+      access_ip: 207.244.245.71
+    cusc1k8n4:
+      ansible_host: 209.126.10.162
+      ip: 209.126.10.162
+        #ip6: 2605:a140:2:2862::1
+      access_ip: 209.126.10.162
+    cusc1k8n5:
+      ansible_host: 207.244.245.86
+      ip: 207.244.245.86
+        #ip6: 2605:a140:2:1686::1
+      access_ip: 207.244.245.86
+  children:
+    kube_control_plane:
+      hosts:
+        cusc1k8n1:
+        cusc1k8n2:
+    kube_node:
+      hosts:
+        cusc1k8n1:
+        cusc1k8n2:
+        cusc1k8n3:
+        cusc1k8n4:
+        cusc1k8n5:
+    etcd:
+      hosts:
+        cusc1k8n1:
+        cusc1k8n2:
+        cusc1k8n3:
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
+    calico_rr:
+      hosts: {}
