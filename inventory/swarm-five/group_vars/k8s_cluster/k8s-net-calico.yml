@@ -107,3 +107,7 @@ calico_vxlan_mode: 'Always'
 # Under certain situations liveness and readiness probes may need tunning
 # calico_node_livenessprobe_timeout: 10
 # calico_node_readinessprobe_timeout: 10
+calico_node_memory_limit: 1500M
+calico_node_cpu_limit: 1000m
+calico_node_memory_requests: 564M
+calico_node_cpu_requests: 550m
