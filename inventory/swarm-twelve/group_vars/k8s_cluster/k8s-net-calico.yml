@@ -129,8 +129,8 @@ calico_bpf_enabled: true
 
 # Calico apiserver (only with kdd)
 # calico_apiserver_enabled: false
-#
 calico_node_memory_limit: 1500M
 calico_node_cpu_limit: 1000m
 calico_node_memory_requests: 564M
 calico_node_cpu_requests: 550m
+
